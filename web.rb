@@ -4,6 +4,7 @@ require 'sinatra'
 require 'dotenv'
 
 require_relative 'tpclient'
+require_relative 'slack_message_escaper'
 
 Dotenv.load
 
@@ -15,7 +16,7 @@ post '/parse' do
   loader = TPClient.from_env.method(:retrieve).to_proc
   formatter = ->(info) do
     link = "<#{info.url}|#{info.id}>"
-    description = Rack::Utils.escape_html("#{info.type} of #{info.owner} - #{info.name}")
+    description = SlackMessageEscaper.escape("#{info.type} of #{info.owner} - #{info.name}")
 
     "#{link}: #{description}"
   end
