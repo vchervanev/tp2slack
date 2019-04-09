@@ -23,6 +23,7 @@ post '/parse' do
 
   text = params[:text]
      .scan(/\bTP(\d{4,})\b/i)
+     .map(&:first)
      .uniq()
      .tap { |ids| puts "numbers:#{ids.size} min:#{ids.min} max:#{ids.max}"}
      .map(&loader)
