@@ -22,9 +22,8 @@ post '/parse' do
   end
 
   text = params[:text]
-     .scan(/\b\d+\b/)
+     .scan(/\bTP(\d{4,})\b/i)
      .uniq()
-     .reject { |id| id.to_i < 3000 || id.to_i > 30000 }
      .tap { |ids| puts "numbers:#{ids.size} min:#{ids.min} max:#{ids.max}"}
      .map(&loader)
      .reject(&:nil?)
